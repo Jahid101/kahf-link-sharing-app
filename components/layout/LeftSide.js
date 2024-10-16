@@ -46,7 +46,7 @@ const LeftSide = () => {
                             </AvatarFallback>
                         </Avatar>
                         <p className="text-center mt-5 break-words px-[80px]">{userDetails?.firstName} {userDetails?.lastName}</p>
-                        <p className="text-xs text-center mt-2 break-all px-[80px]">{userDetails?.email}</p>
+                        <p className="text-xs text-center mt-2 break-all px-[80px]">{userDetails?.contactEmail}</p>
                     </div>
 
                     {userDetails?.links?.length > 0 && userDetails?.links.map((item, index) => (
