@@ -1,4 +1,5 @@
-import CardContent from '@/components/customUI/CardContent';
+import PreviewTopBar from '@/components/layout/PreviewTopbar';
+import CustomLoader from '@/components/loader/loader';
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
     Tooltip,
@@ -8,6 +9,8 @@ import {
 } from "@/components/ui/tooltip";
 import { useToast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import { AiFillFacebook, AiFillYoutube } from "react-icons/ai";
 import { CgWebsite } from "react-icons/cg";
 import { FaLinkedin } from 'react-icons/fa6';
@@ -16,9 +19,23 @@ import { TbBrandGithubFilled, TbExternalLink } from "react-icons/tb";
 import { useSelector } from 'react-redux';
 
 
-const LeftSide = () => {
+const PreviewPage = () => {
     const { userDetails } = useSelector((state) => state.usersSlice);
     const { toast } = useToast()
+    const router = useRouter();
+    const [loading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        if (userDetails && userDetails?.id) {
+            setIsLoading(false);
+        } else {
+            toast({
+                variant: "error",
+                title: "Please login first.",
+            })
+            router.push('/')
+        }
+    }, []);
 
     const handleCopy = (link) => {
         navigator.clipboard.writeText(link);
@@ -33,25 +50,31 @@ const LeftSide = () => {
     }
 
 
+    if (loading) {
+        return (<CustomLoader />)
+    }
+
     return (
-        <div className="hidden lg:block lg:w-[40%]">
-            <CardContent className='flex justify-center'>
-                <div className='bg-phone h-[620px] w-[400px] bg-center bg-no-repeat bg-cover flex flex-col items-center'>
-                    <div className='pt-16 mb-5'>
+        <div className=''>
+            <PreviewTopBar />
+
+            <div className='m-auto bg-white rounded-2xl shadow-lg p-5 w-[300px] mt-[-120px]'>
+                <div className='p-3'>
+                    <div className='pt-3 mb-9'>
                         <Avatar className="border-4 border-solid border-primary h-28 w-28 m-auto">
                             <AvatarImage src={userDetails?.picture} />
                             <AvatarFallback className="uppercase text-3xl">
                                 {userDetails?.firstName ? userDetails?.firstName[0] : 'A'}
                             </AvatarFallback>
                         </Avatar>
-                        <p className="text-center mt-5 break-words text-black text-lg font-bold px-[80px]">{userDetails?.firstName} {userDetails?.lastName}</p>
-                        <p className="text-xs text-center mt-2 break-all px-[80px]">{userDetails?.contactEmail}</p>
+                        <p className="text-center mt-5 break-words text-black text-lg font-bold">{userDetails?.firstName} {userDetails?.lastName}</p>
+                        <p className="text-xs text-center mt-2 break-all">{userDetails?.contactEmail}</p>
                     </div>
 
                     {userDetails?.links?.length > 0 && userDetails?.links.map((item, index) => (
                         <div
                             key={index}
-                            className={cn('flex justify-between items-center mt-3 rounded-lg p-3 w-[230px]',
+                            className={cn('flex justify-between items-center mt-3 rounded-lg p-3',
                                 item?.platform == 'GitHub' && 'bg-[#25292E]',
                                 item?.platform == 'YouTube' && 'bg-red-600',
                                 item?.platform == 'LinkedIn' && 'bg-blue-800',
@@ -91,9 +114,9 @@ const LeftSide = () => {
                         </div>
                     ))}
                 </div>
-            </CardContent>
+            </div>
         </div>
     );
 };
 
-export default LeftSide;
+export default PreviewPage;

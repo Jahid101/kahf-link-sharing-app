@@ -1,34 +1,25 @@
 import CardContent from '@/components/customUI/CardContent';
 import PageTitle from '@/components/customUI/PageTitle';
 import Layout from '@/components/layout/Layout';
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from '@/components/ui/button';
 import {
     Form,
     FormControl,
     FormField,
     FormItem,
-    FormLabel,
     FormMessage
 } from "@/components/ui/form";
 import { Input } from '@/components/ui/input';
-import {
-    Select,
-    SelectContent,
-    SelectItem,
-    SelectTrigger,
-    SelectValue,
-} from "@/components/ui/select";
 import { useToast } from '@/components/ui/use-toast';
+import { cn } from '@/lib/utils';
 import { setUserDetails } from '@/redux/user/usersSlice';
 import { usersAPIs } from '@/utility/api/usersApi';
 import { handleErrorMessage, uploadImage } from '@/utility/utilityFunctions';
 import { useEffect, useState } from 'react';
-import { useFieldArray, useForm } from 'react-hook-form';
-import { FiPlus } from 'react-icons/fi';
-import { useDispatch, useSelector } from 'react-redux';
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useForm } from 'react-hook-form';
 import { MdOutlineAddAPhoto } from "react-icons/md";
-import { cn } from '@/lib/utils';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const ProfilePage = () => {
@@ -147,7 +138,7 @@ const ProfilePage = () => {
             <div className="w-full lg:w-[60%]">
                 <CardContent className="mb-7">
                     <PageTitle title="Profile Details" className="mb-2" />
-                    <p>Add your details to create a personal touch to your profile.</p>
+                    <p className='text-sm'>Add your details to create a personal touch to your profile.</p>
 
                     <Form {...form}>
                         <form

@@ -126,7 +126,7 @@ const LinkPage = () => {
             <div className="w-full lg:w-[60%]">
                 <CardContent className="mb-7">
                     <PageTitle title="Customize your links" className="mb-2" />
-                    <p>Add/edit/remove links below and then share all your profiles with the world!</p>
+                    <p className='text-sm'>Add/edit/remove links below and then share all your profiles with the world!</p>
 
                     <Form {...form}>
                         <form

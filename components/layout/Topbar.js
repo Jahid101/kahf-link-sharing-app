@@ -79,6 +79,7 @@ const TopBar = () => {
                     <Button
                         variant="outline"
                         className="font-semibold p-2 md:py-3 md:px-5"
+                        onClick={() => router.push("/preview")}
                     >
                         <EyeIcon className="md:hidden h-5 w-5" />
                         <span className="hidden md:block">Preview</span>
