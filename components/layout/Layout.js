@@ -3,7 +3,7 @@ import { useToast } from '@/components/ui/use-toast';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import SideNavbar from './SideNavbar';
+import LeftSide from './LeftSide';
 import TopBar from './Topbar';
 
 const Layout = ({ children }) => {
@@ -29,10 +29,10 @@ const Layout = ({ children }) => {
     }
 
     return (
-        <div className='w-full'>
+        <div className='w-full bg-gray-50 overflow-x-auto h-dvh px-1 md:px-7'>
             <TopBar />
-            <div className='flex'>
-                <SideNavbar />
+            <div className='flex gap-5 my-5'>
+                <LeftSide />
                 {children}
             </div>
         </div>

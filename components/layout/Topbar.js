@@ -11,16 +11,22 @@ import { setUserDetails } from "@/redux/user/usersSlice";
 import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { FiLogOut } from "react-icons/fi";
-import { IoSettingsOutline } from "react-icons/io5";
+import { LuUserCircle2 } from "react-icons/lu";
 import { useDispatch, useSelector } from 'react-redux';
-import Logo from '../../public/images/logo.jpg';
+import Logo from '../../public/images/logo.png';
 import { changeThemeColor } from "@/utility/utilityFunctions";
+import CardContent from "@/components/customUI/CardContent";
+import { FaLink } from "react-icons/fa6";
+import { Button } from "@/components/ui/button";
+import { EyeIcon } from "lucide-react";
 
 
 const TopBar = () => {
     const { userDetails } = useSelector((state) => state.usersSlice);
     const router = useRouter();
     const dispatch = useDispatch();
+
+    console.log('router', router?.pathname == '/links');
 
     const handleLogout = () => {
         dispatch(setUserDetails(null));
@@ -31,57 +37,87 @@ const TopBar = () => {
 
 
     return (
-        <div className='flex justify-between w-full items-center mt-1 border-b py-1 shadows'> {/* max-w-[1850px] */}
-            <div className="w-[250px] ml-7 lg:ml-0">
-                <Image
-                    src={Logo}
-                    style={{ margin: 'auto', cursor: 'pointer', marginBottom: '5px' }}
-                    alt="Image alt"
-                    // width={130}
-                    height={50}
-                    onClick={() => router.push('/profile')}
-                />
-            </div>
+        <div className='m-auto'>
+            <CardContent className='flex justify-between w-full items-center p-2 md:p-5 mt-5 border-b py-2 shadows'> {/* max-w-[1850px] */}
+                <div className="flex items-center">
+                    <div className="ml-[-5px]">
+                        <Image
+                            src={Logo}
+                            style={{ margin: 'auto', cursor: 'pointer' }}
+                            alt="logo"
+                            // width={130}
+                            // height={50}
+                            onClick={() => router.push('/links')}
+                        />
+                    </div>
+                    <p className="w-fit text-xl font-bold hidden md:block">devlinks</p>
+                </div>
 
+                <div className="flex items-center gap-3">
+                    <div className={router?.pathname == '/links' ?
+                        "flex items-center gap-2 bg-[#e9e6fd] rounded-md py-2 px-5 cursor-pointer text-primary font-semibold"
+                        :
+                        "flex items-center gap-2 px-5 cursor-pointer font-semibold"
+                    }
+                        onClick={() => router.push("/links")}
+                    >
+                        <FaLink className="text-xl" />
+                        <p className="hidden md:block">Links</p>
+                    </div>
 
-            <div className="lg:ml-20 mx-5 lg:mr-10">
-                <DropdownMenu>
-                    <DropdownMenuTrigger>
-                        <Avatar className="cursor-pointer border border-solid border-slate-300">
-                            <AvatarImage src={userDetails?.picture} />
-                            <AvatarFallback className="uppercase">{userDetails?.name ? userDetails?.name[0] : 'A'}</AvatarFallback>
-                        </Avatar>
-                    </DropdownMenuTrigger>
+                    <div className={router?.pathname == '/profile' ?
+                        "flex items-center gap-2 bg-[#e9e6fd] rounded-md py-2 px-5 cursor-pointer text-primary font-semibold"
+                        :
+                        "flex items-center gap-2 px-5 cursor-pointer font-semibold"
+                    }
+                        onClick={() => router.push("/profile")}
+                    >
+                        <LuUserCircle2 className="text-xl" />
+                        <p className="hidden md:block">Profile</p>
+                    </div>
+                </div>
 
-                    <DropdownMenuContent className='mr-5'>
-                        <div className="flex items-center py-1">
-                            <Avatar className="cursor-pointer border border-solid border-slate-300">
+                <div className="flex items-center gap-2 md:gap-3">
+                    <Button
+                        variant="outline"
+                        className="font-semibold p-2 md:py-3 md:px-5"
+                    >
+                        <EyeIcon className="md:hidden h-5 w-5" />
+                        <span className="hidden md:block">Preview</span>
+                    </Button>
+
+                    <DropdownMenu>
+                        <DropdownMenuTrigger>
+                            <Avatar className="cursor-pointer border border-solid border-slate-300 h-8 w-8 md:h-10 md:w-10">
                                 <AvatarImage src={userDetails?.picture} />
-                                <AvatarFallback className='uppercase'>{userDetails?.name ? userDetails?.name[0] : 'A'}</AvatarFallback>
+                                <AvatarFallback className="uppercase">{userDetails?.firstName ? userDetails?.firstName[0] : 'A'}</AvatarFallback>
                             </Avatar>
-                            <div>
-                                <DropdownMenuLabel className="py-0">{userDetails?.name}</DropdownMenuLabel>
-                                <p className="text-xs px-2">{userDetails?.email}</p>
+                        </DropdownMenuTrigger>
+
+                        <DropdownMenuContent className='mr-7 min-w-[250px] p-3'>
+                            <div className="flex items-center py-1">
+                                <Avatar className="cursor-pointer border border-solid border-slate-300">
+                                    <AvatarImage src={userDetails?.picture} />
+                                    <AvatarFallback className='uppercase'>{userDetails?.firstName ? userDetails?.firstName[0] : 'A'}</AvatarFallback>
+                                </Avatar>
+                                <div>
+                                    <DropdownMenuLabel className="py-0">{userDetails?.firstName} {userDetails?.lastName}</DropdownMenuLabel>
+                                    <p className="text-xs px-2">{userDetails?.email}</p>
+                                </div>
                             </div>
-                        </div>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                            onClick={() => router.push('/settings')}
-                            className='cursor-pointer py-3'
-                        >
-                            <IoSettingsOutline /> &nbsp;&nbsp; Settings
-                        </DropdownMenuItem>
+                            <DropdownMenuSeparator />
 
-                        <DropdownMenuItem
-                            onClick={() => handleLogout()}
-                            className='cursor-pointer py-3'
-                        >
-                            <FiLogOut /> &nbsp;&nbsp; Log Out
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                            <DropdownMenuItem
+                                onClick={() => handleLogout()}
+                                className='cursor-pointer py-3'
+                            >
+                                <FiLogOut /> &nbsp;&nbsp; Log Out
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
 
-            </div>
+                </div>
+            </CardContent>
         </div>
     );
 };

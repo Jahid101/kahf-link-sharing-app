@@ -15,7 +15,7 @@ export default function Home() {
 
   useEffect(() => {
     if (userDetails && userDetails?.id) {
-      router.push('/profile')
+      router.push('/links')
     } else {
       setPageLoad(false)
     }

@@ -45,8 +45,10 @@ const RegistrationForm = () => {
         setIsLoading(true);
 
         let userCredentials = {
-            name: data.name?.trim(),
+            firstName: data.firstName?.trim(),
+            lastName: data.lastName?.trim(),
             email: data.email?.trim(),
+            contactEmail: data.email?.trim(),
             password: data.password,
             themeColor: '#5F41DC',
         };
@@ -81,9 +83,8 @@ const RegistrationForm = () => {
                     toast({
                         variant: "success",
                         title: "Account created successfully.",
-                        description: "Redirecting to profile...",
                     })
-                    router.push('/profile')
+                    router.push('/links')
                 } else {
                     toast({
                         variant: "error",

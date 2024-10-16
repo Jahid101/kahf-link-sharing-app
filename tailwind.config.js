@@ -34,6 +34,9 @@ module.exports = {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
       },
+      backgroundImage: {
+        'phone': "url('/images/phone.webp')",
+      }
     },
   },
   plugins: [require("tailwindcss-animate")],

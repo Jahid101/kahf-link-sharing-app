@@ -11,7 +11,7 @@ export default function Custom404() {
 
   const handleGoBack = () => {
     if (userDetails?.id) {
-      router.push('/profile')
+      router.push('/links')
     } else {
       router.push('/')
     }

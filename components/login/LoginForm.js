@@ -58,22 +58,13 @@ const LoginForm = () => {
                 // console.log('response ==>', response[0]);
 
                 if (user?.id) {
-                    if (user?.loginType != 'email') {
-                        toast({
-                            variant: "error",
-                            title: "User already registered with different login type",
-                        })
-                        setIsLoading(false);
-                        return;
-                    }
-
-                    changeThemeColor(user?.preferences?.themeColor);
+                    changeThemeColor(user?.themeColor);
                     dispatch(setUserDetails(user));
                     toast({
                         variant: "success",
                         title: "Login successful",
                     })
-                    router.push('/profile')
+                    router.push('/links')
                 } else {
                     toast({
                         variant: "error",
@@ -81,6 +72,12 @@ const LoginForm = () => {
                     })
                     setIsLoading(false);
                 }
+            } else {
+                toast({
+                    variant: "error",
+                    title: "User not found",
+                })
+                setIsLoading(false);
             }
         } catch (error) {
             console.log("error ==>", error);
@@ -151,16 +148,6 @@ const LoginForm = () => {
                         <FormItem>
                             <FormLabel>Password</FormLabel>
                             <FormControl>
-                                {/* <Input
-                                                id="password"
-                                                type="password"
-                                                placeholder="Password"
-                                                autoComplete="off"
-                                                {...field}
-                                                {...register("password", {
-                                                    required: "Password is required",
-                                                })}
-                                            /> */}
                                 <PasswordInput
                                     id="password"
                                     type="password"
