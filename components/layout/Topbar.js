@@ -26,8 +26,6 @@ const TopBar = () => {
     const router = useRouter();
     const dispatch = useDispatch();
 
-    console.log('router', router?.pathname == '/links');
-
     const handleLogout = () => {
         dispatch(setUserDetails(null));
         changeThemeColor();

@@ -29,7 +29,7 @@ const Layout = ({ children }) => {
     }
 
     return (
-        <div className='w-full bg-gray-50 overflow-x-auto h-dvh px-1 md:px-7'>
+        <div className='w-full bg-gray-50 px-1 md:px-7'>
             <TopBar />
             <div className='flex gap-5 my-5'>
                 <LeftSide />
