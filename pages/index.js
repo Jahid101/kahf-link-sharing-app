@@ -1,7 +1,5 @@
 import CustomLoader from "@/components/loader/loader";
 import LoginForm from "@/components/login/LoginForm";
-import { Spinner } from "@/components/ui/spinner";
-import dynamic from "next/dynamic";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
