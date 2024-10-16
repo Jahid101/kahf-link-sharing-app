@@ -38,7 +38,7 @@ const TopBar = () => {
 
     return (
         <div className='m-auto'>
-            <CardContent className='flex justify-between w-full items-center p-2 md:p-5 mt-5 border-b py-2 shadows'> {/* max-w-[1850px] */}
+            <CardContent className='flex justify-between w-full items-center p-2 md:p-5 mt-5 border-b py-2 shadows'>
                 <div className="flex items-center">
                     <div className="ml-[-5px]">
                         <Image
