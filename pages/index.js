@@ -38,7 +38,7 @@ export default function Home() {
           <LoginForm />
 
           <p
-            className="text-sm underline cursor-pointer text-primary text-center mt-3 text-label font-header"
+            className="text-sm underline cursor-pointer text-primary text-center mt-3 text-label font-header w-fit"
             onClick={() => router.push('/registration')}
           >
             Create account
