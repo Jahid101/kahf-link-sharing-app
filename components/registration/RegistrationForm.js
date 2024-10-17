@@ -155,7 +155,7 @@ const RegistrationForm = () => {
                                         autoComplete="off"
                                         {...field}
                                         {...register("lastName", {
-                                            required: "Name is required",
+                                            required: "Last name is required",
                                         })}
                                     />
                                 </FormControl>
