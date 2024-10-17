@@ -10,9 +10,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from '@/components/ui/password-input';
 import { useToast } from '@/components/ui/use-toast';
+import { setPreviewDetails } from '@/redux/preview/previewSlice';
 import { setUserDetails } from '@/redux/user/usersSlice';
 import { usersAPIs } from '@/utility/api/usersApi';
-import { changeThemeColor, handleErrorMessage } from '@/utility/utilityFunctions';
+import { handleErrorMessage } from '@/utility/utilityFunctions';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -50,7 +51,7 @@ const RegistrationForm = () => {
             email: data.email?.trim(),
             contactEmail: data.email?.trim(),
             password: data.password,
-            themeColor: '#5F41DC',
+            picture: '',
         };
 
         try {
@@ -78,8 +79,8 @@ const RegistrationForm = () => {
                 // console.log('response ==>', response);
 
                 if (user?.id) {
-                    changeThemeColor(user?.preferences?.themeColor);
                     dispatch(setUserDetails(user));
+                    dispatch(setPreviewDetails(user));
                     toast({
                         variant: "success",
                         title: "Account created successfully.",

@@ -8,17 +8,26 @@ import {
 } from "@/components/ui/tooltip";
 import { useToast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
+import { setPreviewDetails } from '@/redux/preview/previewSlice';
+import { useEffect } from 'react';
 import { AiFillFacebook, AiFillYoutube } from "react-icons/ai";
 import { CgWebsite } from "react-icons/cg";
 import { FaLinkedin } from 'react-icons/fa6';
 import { IoCopy } from "react-icons/io5";
 import { TbBrandGithubFilled, TbExternalLink } from "react-icons/tb";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import Skeleton from '@/components/customUI/Skeleton';
 
 
 const LeftSide = () => {
     const { userDetails } = useSelector((state) => state.usersSlice);
+    const { previewDetails } = useSelector((state) => state.previewSlice);
     const { toast } = useToast()
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(setPreviewDetails(userDetails));
+    }, [])
 
     const handleCopy = (link) => {
         navigator.clipboard.writeText(link);
@@ -36,24 +45,37 @@ const LeftSide = () => {
         }
     }
 
+    console.log('previewDetails =>', previewDetails);
 
     return (
         <div className="hidden lg:block lg:w-[40%]">
             <CardContent className='flex justify-center py-20'>
                 <div className='bg-phone h-[650px] w-[300px] bg-center bg-no-repeat bg-cover flex flex-col items-center'>
                     <div className='pt-[85px] mb-5'>
-                        <Avatar className="border-4 border-solid border-primary h-28 w-28 m-auto">
-                            <AvatarImage src={userDetails?.picture} />
-                            <AvatarFallback className="uppercase text-3xl">
-                                {userDetails?.firstName ? userDetails?.firstName[0] : 'A'}
-                            </AvatarFallback>
-                        </Avatar>
-                        <p className="text-center mt-5 break-words text-black text-lg font-bold px-[80px]">{userDetails?.firstName} {userDetails?.lastName}</p>
-                        <p className="text-xs text-center mt-2 break-all px-[80px]">{userDetails?.contactEmail}</p>
+                        {(!previewDetails?.picture || previewDetails?.picture == '') ?
+                            <Skeleton className="h-28 w-28 rounded-full m-auto" />
+                            :
+                            <Avatar className="border-4 border-solid border-primary h-28 w-28 m-auto">
+                                <AvatarImage src={previewDetails?.picture} />
+                                <AvatarFallback className="uppercase text-3xl">
+                                    {previewDetails?.firstName ? previewDetails?.firstName[0] : 'A'}
+                                </AvatarFallback>
+                            </Avatar>
+                        }
+                        {(previewDetails?.firstName == '' && previewDetails?.lastName == '') ?
+                            <Skeleton className="h-6 w-[180px] rounded-lg my-2 mx-auto" />
+                            :
+                            <p className="text-center mt-5 break-words text-black text-lg font-bold px-[80px]">{previewDetails?.firstName} {previewDetails?.lastName}</p>
+                        }
+                        {(!previewDetails?.contactEmail || previewDetails?.contactEmail == '') ?
+                            <Skeleton className="h-6 w-[200px] rounded-lg my-2 mx-auto" />
+                            :
+                            <p className="text-xs text-center mt-2 break-all px-[80px]">{previewDetails?.contactEmail}</p>
+                        }
                     </div>
 
                     <div className='max-h-[300px] overflow-y-auto px-1'>
-                        {userDetails?.links?.length > 0 && userDetails?.links.map((item, index) => (
+                        {previewDetails?.links?.length > 0 && previewDetails?.links.map((item, index) => (
                             <div
                                 key={index}
                                 className={cn('flex justify-between items-center mt-3 rounded-lg p-3 w-[260px]',
@@ -95,6 +117,12 @@ const LeftSide = () => {
                                 </div>
                             </div>
                         ))}
+
+                        {previewDetails?.links?.length < 5 &&
+                            [...Array(5 - previewDetails?.links?.length).keys()].map(i => i + 1).map((item, index) => (
+                                <Skeleton className="h-10 w-[250px] rounded-lg my-3 mx-auto" />
+                            ))
+                        }
                     </div>
                 </div>
             </CardContent>

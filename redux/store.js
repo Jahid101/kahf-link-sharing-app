@@ -9,6 +9,7 @@ import {
   persistReducer, persistStore,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import previewSlice from "./preview/previewSlice";
 import usersSlice from "./user/usersSlice";
 
 const persistConfig = {
@@ -22,6 +23,7 @@ const persistedUserReducer = persistReducer(persistConfig, usersSlice);
 export const store = configureStore({
   reducer: {
     usersSlice: persistedUserReducer,
+    previewSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

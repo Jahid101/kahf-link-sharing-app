@@ -7,6 +7,8 @@ import { useRouter } from 'next/router';
 import { useSelector } from 'react-redux';
 import { useToast } from '@/components/ui/use-toast';
 import ShareButton from './ShareButton';
+import Logo from '../../public/images/logo.png';
+import Image from 'next/image';
 
 
 const PreviewTopBar = () => {
@@ -40,6 +42,17 @@ const PreviewTopBar = () => {
                     <FaRegEdit className='md:hidden' />
                     <span className="hidden md:block">Back to Editor</span>
                 </Button>
+
+                <div className="flex items-center">
+                    <div className='md:mr-2'>
+                        <Image
+                            src={Logo}
+                            alt="logo"
+                            className="max-[767px]:border max-[767px]:border-primary max-[767px]:rounded-lg"
+                        />
+                    </div>
+                    <p className="w-fit text-xl font-bold hidden md:block text-black">devlinks</p>
+                </div>
 
                 <Button
                     className="font-semibold p-3 md:py-3 md:px-5"
