@@ -226,7 +226,6 @@ export default function VerticalDndWithLinkForm() {
     handleSubmit,
     formState: { errors },
     watch,
-    getValues,
     reset,
   } = useForm({
     defaultValues: {
@@ -243,10 +242,16 @@ export default function VerticalDndWithLinkForm() {
 
   const watchFieldArray = useWatch({ control, name: 'userLinks' });
 
-
   useEffect(() => {
     reset({ userLinks: userDetails?.links })
   }, [])
+
+  useEffect(() => {
+    if (previewDetails?.id) {
+      var info = { ...previewDetails, links: watchFieldArray };
+      dispatch(setPreviewDetails(info));
+    }
+  }, [watchFieldArray])
 
 
   const sensors = useSensors(
@@ -318,14 +323,6 @@ export default function VerticalDndWithLinkForm() {
     }
   }
 
-
-
-  useEffect(() => {
-    if (previewDetails?.id) {
-      var info = { ...previewDetails, links: watchFieldArray };
-      dispatch(setPreviewDetails(info));
-    }
-  }, [watchFieldArray])
 
 
   return (

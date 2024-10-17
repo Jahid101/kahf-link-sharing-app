@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import {
     Form,
     FormControl,
+    FormDescription,
     FormField,
     FormItem,
     FormMessage
@@ -13,17 +14,19 @@ import {
 import { Input } from '@/components/ui/input';
 import { useToast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
+import { setPreviewDetails } from '@/redux/preview/previewSlice';
 import { setUserDetails } from '@/redux/user/usersSlice';
 import { usersAPIs } from '@/utility/api/usersApi';
 import { handleErrorMessage, uploadImage } from '@/utility/utilityFunctions';
 import { useEffect, useState } from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { MdOutlineAddAPhoto } from "react-icons/md";
 import { useDispatch, useSelector } from 'react-redux';
 
 
 const ProfilePage = () => {
     const { userDetails } = useSelector((state) => state.usersSlice);
+    const { previewDetails } = useSelector((state) => state.previewSlice);
     const dispatch = useDispatch();
     const { toast } = useToast()
     const [loading, setIsLoading] = useState(false);
@@ -34,7 +37,7 @@ const ProfilePage = () => {
     const {
         register,
         reset,
-        formState: { errors, isSubmitting, isValid },
+        formState: { errors },
         handleSubmit,
         control,
     } = useForm({ mode: "all" });
@@ -47,6 +50,8 @@ const ProfilePage = () => {
         },
     })
 
+    const watchFieldArray = useWatch({ control });
+
     useEffect(() => {
         reset({
             firstName: userDetails?.firstName,
@@ -54,6 +59,14 @@ const ProfilePage = () => {
             contactEmail: userDetails?.contactEmail,
         })
     }, [])
+
+
+    useEffect(() => {
+        if (previewDetails?.id) {
+            var info = { ...previewDetails, ...watchFieldArray };
+            dispatch(setPreviewDetails(info));
+        }
+    }, [watchFieldArray])
 
 
     const onClickUpload = () => {
@@ -72,6 +85,10 @@ const ProfilePage = () => {
         } else {
             setImagePath(imagePath);
             setUploadedImage(imageFile);
+            if (previewDetails?.id) {
+                var info = { ...previewDetails, picture: imagePath};
+                dispatch(setPreviewDetails(info));
+            }
         }
     };
 
@@ -271,6 +288,9 @@ const ProfilePage = () => {
                                                             })}
                                                         />
                                                     </FormControl>
+                                                    <FormDescription>
+                                                        <small className='mt-0'>This is your contact email. Login credentials will remain as it is.</small>
+                                                    </FormDescription>
                                                     <FormMessage>
                                                         {
                                                             handleErrorMessage(errors, "contactEmail") ? (
