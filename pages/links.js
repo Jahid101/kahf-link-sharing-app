@@ -226,7 +226,7 @@ const LinkPage = () => {
                                                                                         /^(https:\/\/)?(www\.)?linkedin\.com\/in\/[A-Za-z0-9-_%]+(\/)?$/
                                                                                         :
                                                                                         watch(`userLinks.${index}.platform`) == 'YouTube' ?
-                                                                                            /^(https:\/\/)?(www\.)?(youtube\.com\/(channel\/[A-Za-z0-9_-]+|c\/[A-Za-z0-9_-]+|user\/[A-Za-z0-9_-]+|watch\?v=[A-Za-z0-9_-]+)|youtu\.be\/[A-Za-z0-9_-]+)(\/)?$/
+                                                                                            /^(https:\/\/)?(www\.)?(youtube\.com\/(channel\/[A-Za-z0-9_-]+|c\/[A-Za-z0-9_-]+|user\/[A-Za-z0-9_-]+|watch\?v=[A-Za-z0-9_-]+(&[A-Za-z0-9_-]+=[A-Za-z0-9_-]+)*)|youtu\.be\/[A-Za-z0-9_-]+)(\/)?$/
                                                                                             :
                                                                                             ''
                                                                     ,
