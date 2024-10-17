@@ -13,6 +13,13 @@ export const usersAPIs = {
         })
         return data.data;
     },
+    getUser: async (userId) => {
+        const data = await axios({
+            url: Constants.Api.users.users + '/' + userId,
+            method: "GET",
+        })
+        return data.data;
+    },
     loginUser: async (userInfo) => {
         const data = await axios({
             url: Constants.Api.users.users + `?email=${userInfo?.email}`,

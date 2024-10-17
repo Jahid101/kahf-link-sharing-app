@@ -29,9 +29,9 @@ const Layout = ({ children }) => {
     }
 
     return (
-        <div className='w-full bg-gray-50 px-1 md:px-7'>
+        <div className='w-full px-1 md:px-7'>
             <TopBar />
-            <div className='flex gap-5 my-5'>
+            <div className='flex gap-7 my-7'>
                 <LeftSide />
                 {children}
             </div>
