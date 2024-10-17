@@ -185,17 +185,33 @@ export default function VerticalDnd(data) {
 
 
   const handleDragEnd = ({ active, over }) => {
-    console.log('object', active.id, over.id);
     if (active.id !== over.id) {
-      console.log("fields ==>", fields);
-      // setItems((items) => {
-      //   const oldIndex = items.indexOf(active.id);
-      //   const newIndex = items.indexOf(over.id);
-      //   console.log('oldIndex new', oldIndex, newIndex);
-      //   return arrayMove(items, oldIndex, newIndex);
-      // });
+      const oldIndex = fields.findIndex((item) => item.id === active.id);
+      const newIndex = fields.findIndex((item) => item.id === over.id);
+
+      // Use arrayMove to rearrange the fields
+      const newFields = arrayMove(fields, oldIndex, newIndex);
+
+      // Update the field array with the new order
+      newFields.forEach((field, index) => {
+        update(index, field);
+      });
     }
   };
+
+
+  // const handleDragEnd = ({ active, over }) => {
+  //   console.log('object', active.id, over.id);
+  //   if (active.id !== over.id) {
+  //     console.log("fields ==>", fields);
+  //     // setItems((items) => {
+  //     //   const oldIndex = items.indexOf(active.id);
+  //     //   const newIndex = items.indexOf(over.id);
+  //     //   console.log('oldIndex new', oldIndex, newIndex);
+  //     //   return arrayMove(items, oldIndex, newIndex);
+  //     // });
+  //   }
+  // };
 
 
 
@@ -302,39 +318,36 @@ export default function VerticalDnd(data) {
     <DndContext
       sensors={sensors}
       collisionDetection={closestCenter}
-      modifiers={[restrictToVerticalAxis]} // Use custom vertical restriction
+      modifiers={[restrictToVerticalAxis]}
       onDragEnd={handleDragEnd}
     >
       <SortableContext items={fields} strategy={verticalListSortingStrategy}>
         <Form {...form}>
-          <form
-            onSubmit={handleSubmit(onSubmit)}
-          >
+          <form onSubmit={handleSubmit(onSubmit)}>
             <Button
               variant="outline"
               className="mt-7 font-semibold w-full py-5 mb-7"
               type="button"
-              onClick={() => {
-                append(initialValue, {
-                  shouldFocus: false,
-                });
-              }}
+              onClick={() => append(initialValue)}
             >
               <FiPlus className='mr-2 hover:text-white h-4 w-4' />
               Add new link
             </Button>
 
             <div className='space-y-7 px-1'>
-
-              {fields?.length > 0 && fields.map((item, index) => (
-                <DraggableItem key={item?.id} id={item?.id} item={item} index={index} fields={fields} control={control} register={register} errors={errors} watch={watch} />
+              {fields.map((item, index) => (
+                <DraggableItem
+                  key={item.id}
+                  id={item.id}
+                  item={item}
+                  index={index}
+                  fields={fields}
+                  control={control}
+                  register={register}
+                  errors={errors}
+                  watch={watch}
+                />
               ))}
-
-              {/* {items.map((item, index) => (
-                <DraggableItem key={item?.id} id={item?.id} item={item} index={index} fields={items} control={control} register={register} errors={errors} watch={watch} />
-              ))} */}
-              {/* <DraggableItem key={item} id={item} item={item} /> */}
-
             </div>
 
             <div className='flex justify-end mt-7'>
