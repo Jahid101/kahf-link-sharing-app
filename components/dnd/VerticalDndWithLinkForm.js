@@ -41,7 +41,7 @@ import { FiPlus } from 'react-icons/fi';
 import { HiOutlineMenu } from 'react-icons/hi';
 import { TbBrandGithubFilled } from 'react-icons/tb';
 import { useDispatch, useSelector } from 'react-redux';
-import { CustomInput } from '../ui/custom-input';
+import { CustomInput } from '@/components/ui/custom-input';
 
 
 const restrictToVerticalAxis = ({ transform }) => {
@@ -243,7 +243,9 @@ export default function VerticalDndWithLinkForm() {
   const watchFieldArray = useWatch({ control, name: 'userLinks' });
 
   useEffect(() => {
-    reset({ userLinks: userDetails?.links })
+    if (userDetails?.links?.length > 0) {
+      reset({ userLinks: userDetails?.links })
+    }
   }, [])
 
   useEffect(() => {

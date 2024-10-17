@@ -51,7 +51,7 @@ const RegistrationForm = () => {
             email: data.email?.trim(),
             contactEmail: data.email?.trim(),
             password: data.password,
-            themeColor: '#5F41DC',
+            picture: '',
         };
 
         try {
