@@ -29,7 +29,7 @@ const Layout = ({ children }) => {
     }
 
     return (
-        <div className='w-full px-1 md:px-7'>
+        <div className='w-full px-2 md:px-7'>
             <TopBar />
             <div className='flex gap-7 my-7'>
                 <LeftSide />

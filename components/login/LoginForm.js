@@ -10,9 +10,10 @@ import {
 import { Input } from "@/components/ui/input";
 import { PasswordInput } from '@/components/ui/password-input';
 import { useToast } from '@/components/ui/use-toast';
+import { setPreviewDetails } from '@/redux/preview/previewSlice';
 import { setUserDetails } from '@/redux/user/usersSlice';
 import { usersAPIs } from '@/utility/api/usersApi';
-import { changeThemeColor, handleErrorMessage } from '@/utility/utilityFunctions';
+import { handleErrorMessage } from '@/utility/utilityFunctions';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
@@ -58,8 +59,8 @@ const LoginForm = () => {
                 // console.log('response ==>', response[0]);
 
                 if (user?.id) {
-                    changeThemeColor(user?.themeColor);
                     dispatch(setUserDetails(user));
+                    dispatch(setPreviewDetails(user));
                     toast({
                         variant: "success",
                         title: "Login successful",
