@@ -9,6 +9,7 @@ import {
 } from "@/components/ui/tooltip";
 import { useToast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
+import { usersAPIs } from '@/utility/api/usersApi';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { AiFillFacebook, AiFillYoutube } from "react-icons/ai";
@@ -24,18 +25,58 @@ const PreviewPage = () => {
     const { toast } = useToast()
     const router = useRouter();
     const [loading, setIsLoading] = useState(true);
+    const [userData, setUserData] = useState({});
 
     useEffect(() => {
-        if (userDetails && userDetails?.id) {
-            setIsLoading(false);
-        } else {
+        if (router?.isReady) {
+            if (userDetails && userDetails?.id) {
+                setUserData(userDetails);
+                setIsLoading(false);
+            } else {
+                getUserInfo()
+            }
+        }
+    }, [router?.isReady]);
+
+
+    const getUserInfo = async () => {
+
+        try {
+            const response = await usersAPIs.getUser(router.query?.id)
+            // console.log('response ==>', response);
+
+            if (response && response?.id) {
+                const user = response;
+                delete user.password;
+
+                setUserData(user);
+                setIsLoading(false);
+            } else {
+                toast({
+                    variant: "error",
+                    title: "No data found",
+                })
+                setIsLoading(false);
+            }
+        } catch (error) {
+            console.log("error ==>", error);
+
+            if (error?.response?.data == "Not found") {
+                toast({
+                    variant: "error",
+                    title: "No data found",
+                })
+                setIsLoading(false);
+                return
+            }
+
             toast({
                 variant: "error",
-                title: "Please login first.",
+                title: "Something went wrong. Please try again later",
             })
-            router.push('/')
+            setIsLoading(false);
         }
-    }, []);
+    }
 
     const handleCopy = (link) => {
         navigator.clipboard.writeText(link);
@@ -55,26 +96,26 @@ const PreviewPage = () => {
     }
 
     return (
-        <div className=''>
+        <div>
             <PreviewTopBar />
 
-            <div className='m-auto bg-white rounded-2xl shadow-lg p-5 w-[300px] mt-[-120px]'>
+            <div className='m-auto bg-white rounded-2xl shadow-lg p-5 pb-10 w-[95%] min-[420px]:w-[400px] mt-[-120px] mb-10'>
                 <div className='p-3'>
                     <div className='pt-3 mb-9'>
                         <Avatar className="border-4 border-solid border-primary h-28 w-28 m-auto">
-                            <AvatarImage src={userDetails?.picture} />
+                            <AvatarImage src={userData?.picture} />
                             <AvatarFallback className="uppercase text-3xl">
-                                {userDetails?.firstName ? userDetails?.firstName[0] : 'A'}
+                                {userData?.firstName ? userData?.firstName[0] : 'A'}
                             </AvatarFallback>
                         </Avatar>
-                        <p className="text-center mt-5 break-words text-black text-lg font-bold">{userDetails?.firstName} {userDetails?.lastName}</p>
-                        <p className="text-xs text-center mt-2 break-all">{userDetails?.contactEmail}</p>
+                        <p className="text-center mt-5 break-words text-black text-lg font-bold">{userData?.firstName} {userData?.lastName}</p>
+                        <p className="text-xs text-center mt-2 break-all">{userData?.contactEmail}</p>
                     </div>
 
-                    {userDetails?.links?.length > 0 && userDetails?.links.map((item, index) => (
+                    {userData?.links?.length > 0 && userData?.links.map((item, index) => (
                         <div
                             key={index}
-                            className={cn('flex justify-between items-center mt-3 rounded-lg p-3',
+                            className={cn('flex justify-between items-center mt-4 rounded-lg px-4 py-5',
                                 item?.platform == 'GitHub' && 'bg-[#25292E]',
                                 item?.platform == 'YouTube' && 'bg-red-600',
                                 item?.platform == 'LinkedIn' && 'bg-blue-800',
@@ -83,18 +124,18 @@ const PreviewPage = () => {
                             )}
                         >
                             <div className='flex items-center text-white'>
-                                {item?.platform == 'GitHub' && <TbBrandGithubFilled className='w-4 h-4 mr-2' />}
-                                {item?.platform == 'LinkedIn' && <FaLinkedin className='w-4 h-4 mr-2' />}
-                                {item?.platform == 'YouTube' && <AiFillYoutube className='w-4 h-4 mr-2' />}
-                                {item?.platform == 'Facebook' && <AiFillFacebook className='w-4 h-4 mr-2' />}
-                                {item?.platform == 'Portfolio' && <CgWebsite className='w-4 h-4 mr-2' />}
+                                {item?.platform == 'GitHub' && <TbBrandGithubFilled className='w-6 h-6 mr-2' />}
+                                {item?.platform == 'LinkedIn' && <FaLinkedin className='w-6 h-6 mr-2' />}
+                                {item?.platform == 'YouTube' && <AiFillYoutube className='w-6 h-6 mr-2' />}
+                                {item?.platform == 'Facebook' && <AiFillFacebook className='w-6 h-6 mr-2' />}
+                                {item?.platform == 'Portfolio' && <CgWebsite className='w-6 h-6 mr-2' />}
                                 <p className='w-fit text-sm'>{item?.platform}</p>
                             </div>
                             <div className='flex items-center gap-2 text-white'>
                                 <TooltipProvider>
                                     <Tooltip delayDuration={0}>
                                         <TooltipTrigger>
-                                            <IoCopy className='cursor-pointer w-4 h-4' onClick={() => handleCopy(item?.link)} />
+                                            <IoCopy className='cursor-pointer w-5 h-5' onClick={() => handleCopy(item?.link)} />
                                         </TooltipTrigger>
                                         <TooltipContent>
                                             <p>Copy</p>
@@ -103,7 +144,7 @@ const PreviewPage = () => {
 
                                     <Tooltip delayDuration={0}>
                                         <TooltipTrigger>
-                                            <TbExternalLink className='cursor-pointer w-4 h-4' onClick={() => handleExternalLink(item?.link)} />
+                                            <TbExternalLink className='cursor-pointer w-5 h-5' onClick={() => handleExternalLink(item?.link)} />
                                         </TooltipTrigger>
                                         <TooltipContent>
                                             <p>Visit</p>

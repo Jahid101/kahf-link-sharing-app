@@ -8,7 +8,6 @@ import { useSelector } from "react-redux";
 export default function Home() {
   const { userDetails } = useSelector((state) => state.usersSlice);
   const router = useRouter();
-  const [isHovering, setIsHovering] = useState(false)
   const [pageLoad, setPageLoad] = useState(true)
 
   useEffect(() => {
@@ -26,16 +25,10 @@ export default function Home() {
 
 
   return (
-    <div
-      className={isHovering ?
-        "flex justify-center items-center h-dvh bg-gradient-to-r from-pink-500 to-orange-500" :
-        "flex justify-center items-center h-dvh bg-gradient-to-r from-teal-400 to-blue-500"
-      }
+    <div className="flex justify-center items-center h-dvh bg-gradient-to-r from-pink-500 to-orange-500"
     >
       <div
         className='w-[90%] md:w-[60%] lg:w-[40%] 2xl:w-[30%] px-5s py-7 flex justify-center items-center border rounded-lg shadow-lg bg-white'
-        onMouseOver={() => setIsHovering(true)}
-        onMouseLeave={() => setIsHovering(false)}
       >
         <div className='pb-5 w-[90%]'>
           <p className="text-[23px] text-primary text-center font-header mt-5">Welcome to Kahf Link Sharing App</p>

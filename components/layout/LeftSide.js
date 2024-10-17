@@ -29,13 +29,17 @@ const LeftSide = () => {
     }
 
     const handleExternalLink = (link) => {
-        window.open(link, '_blank');
+        if (link.startsWith("http://")) {
+            window.open(link, '_blank');
+        } else {
+            window.open("http://" + link, '_blank');
+        }
     }
 
 
     return (
         <div className="hidden lg:block lg:w-[40%]">
-            <CardContent className='flex justify-center'>
+            <CardContent className='flex justify-center py-7'>
                 <div className='bg-phone h-[620px] w-[400px] bg-center bg-no-repeat bg-cover flex flex-col items-center'>
                     <div className='pt-16 mb-5'>
                         <Avatar className="border-4 border-solid border-primary h-28 w-28 m-auto">

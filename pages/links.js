@@ -51,6 +51,7 @@ const LinkPage = () => {
         register,
         handleSubmit,
         formState: { errors },
+        watch,
         reset,
     } = useForm({
         defaultValues: {
@@ -131,11 +132,10 @@ const LinkPage = () => {
                     <Form {...form}>
                         <form
                             onSubmit={handleSubmit(onSubmit)}
-                            className="space-y-5"
                         >
                             <Button
                                 variant="outline"
-                                className="mt-7 font-semibold w-full py-5 mb-2"
+                                className="mt-7 font-semibold w-full py-5 mb-7"
                                 type="button"
                                 disabled={fields?.length >= 5}
                                 onClick={() => {
@@ -144,13 +144,14 @@ const LinkPage = () => {
                                     });
                                 }}
                             >
-                                <FiPlus className='mr-2' />
+                                <FiPlus className='mr-2 hover:text-white h-4 w-4' />
                                 Add new link
                             </Button>
 
-                            <div className='max-h-[384px] overflow-y-auto space-y-5 px-1'>
+                            <div className='space-y-7 px-1'>
+                            {/* <div className='h-[384px] overflow-y-auto space-y-7 px-1'> */}
                                 {fields.map((item, index) => (
-                                    <div key={item.id} className='bg-slate-50 p-4 rounded-lg border'>
+                                    <div key={item.id} className='bg-gray-50 p-4 rounded-lg border pb-5'>
                                         <div className='flex justify-between'>
                                             <p className='font-semibold'>Link #{index + 1}</p>
                                             {fields?.length > 1 && <p className='cursor-pointer' onClick={() => remove(index)}>Remove</p>}
@@ -211,10 +212,27 @@ const LinkPage = () => {
                                                             {...field}
                                                             {...register(`userLinks.${index}.link`, {
                                                                 required: "Link is required",
-                                                                // pattern: {
-                                                                //     value: /\S+@\S+\.\S+/,
-                                                                //     message: "Invalid email address",
-                                                                // },
+                                                                pattern: {
+                                                                    value:
+                                                                        watch(`userLinks.${index}.platform`) == 'Portfolio' ?
+                                                                            /^(https?:\/\/)?(www\.)?[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}(\/[^\s]*)?$/
+                                                                            :
+                                                                            watch(`userLinks.${index}.platform`) == 'GitHub' ?
+                                                                                /^(https:\/\/)?(www\.)?github\.com\/[A-Za-z0-9_-]+(\/[A-Za-z0-9_.-]+)?(\/)?$/
+                                                                                :
+                                                                                watch(`userLinks.${index}.platform`) == 'Facebook' ?
+                                                                                    /^(https:\/\/)?(www\.)?facebook\.com\/[A-Za-z0-9.]+(\/)?$/
+                                                                                    :
+                                                                                    watch(`userLinks.${index}.platform`) == 'LinkedIn' ?
+                                                                                        /^(https:\/\/)?(www\.)?linkedin\.com\/in\/[A-Za-z0-9-_%]+(\/)?$/
+                                                                                        :
+                                                                                        watch(`userLinks.${index}.platform`) == 'YouTube' ?
+                                                                                            /^(https:\/\/)?(www\.)?(youtube\.com\/(channel\/[A-Za-z0-9_-]+|c\/[A-Za-z0-9_-]+|user\/[A-Za-z0-9_-]+|watch\?v=[A-Za-z0-9_-]+)|youtu\.be\/[A-Za-z0-9_-]+)(\/)?$/
+                                                                                            :
+                                                                                            ''
+                                                                    ,
+                                                                    message: "Invalid URL",
+                                                                },
                                                             })}
                                                         />
                                                     </FormControl>
@@ -235,7 +253,7 @@ const LinkPage = () => {
                                 ))}
                             </div>
 
-                            <div className='flex justify-end'>
+                            <div className='flex justify-end mt-7'>
                                 <Button
                                     className="w-full md:w-fit"
                                     size="lg"

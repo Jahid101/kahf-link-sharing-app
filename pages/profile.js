@@ -143,14 +143,13 @@ const ProfilePage = () => {
                     <Form {...form}>
                         <form
                             onSubmit={handleSubmit(onSubmit)}
-                            className=""
                         >
-                            <div className="flex justify-between items-center bg-gray-50 rounded-lg p-3 mt-7">
+                            <div className="flex justify-between items-center bg-gray-50 rounded-lg px-3 py-7 mt-10">
                                 <p className='w-fit'>Profile picture</p>
                                 <div className='w-[70%] flex items-center gap-5'>
                                     <div className='relative w-fit'>
                                         <Avatar
-                                            className={cn('border border-solid rounded-lg border-slate-300 h-36 w-36',
+                                            className={cn('border border-solid rounded-lg border-slate-300 h-40 w-40',
                                                 hover && 'opacity-20'
                                             )}
                                             onMouseOver={() => setHover(true)}
@@ -165,7 +164,7 @@ const ProfilePage = () => {
                                         <Input id="uploadProfileImage" type="file" accept="image/*" onChange={handleChange} className="hidden" />
 
                                         <div
-                                            className={cn('h-36 w-36 flex flex-col justify-center items-center absolute top-0 cursor-pointer z-[-10]',
+                                            className={cn('h-40 w-40 flex flex-col justify-center items-center absolute top-0 cursor-pointer z-[-10]',
                                                 hover && 'z-[10]'
                                             )}
                                             onClick={() => onClickUpload()}
@@ -180,7 +179,7 @@ const ProfilePage = () => {
                                 </div>
                             </div>
 
-                            <div className="bg-gray-50 rounded-lg p-3 space-y-5 my-5">
+                            <div className="bg-gray-50 rounded-lg px-3 py-7 space-y-5 my-5">
                                 <div className="flex justify-between items-center">
                                     <p className=''>First name*</p>
                                     <div className='w-[70%]'>
@@ -288,7 +287,7 @@ const ProfilePage = () => {
                                 </div>
                             </div>
 
-                            <div className='flex justify-end'>
+                            <div className='flex justify-end mt-7'>
                                 <Button
                                     className="w-full md:w-fit"
                                     size="lg"
