@@ -1,8 +1,8 @@
 import Image from "next/image";
 import { useRouter } from "next/router";
 import { FaArrowLeftLong } from "react-icons/fa6";
-import Error from "../public/images/404.webp";
 import { useSelector } from "react-redux";
+import Error from "../public/images/404.webp";
 
 
 export default function Custom404() {

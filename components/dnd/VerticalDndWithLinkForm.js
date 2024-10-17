@@ -1,26 +1,3 @@
-// components/VerticalDnd.js
-import { useEffect, useState } from 'react';
-import {
-  DndContext,
-  closestCenter,
-  KeyboardSensor,
-  PointerSensor,
-  useSensor,
-  useSensors,
-} from '@dnd-kit/core';
-import {
-  SortableContext,
-  arrayMove,
-  verticalListSortingStrategy,
-  useSortable,
-} from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { HiOutlineMenu } from 'react-icons/hi';
-
-
-import CardContent from '@/components/customUI/CardContent';
-import PageTitle from '@/components/customUI/PageTitle';
-import Layout from '@/components/layout/Layout';
 import { Button } from '@/components/ui/button';
 import {
   Form,
@@ -30,7 +7,6 @@ import {
   FormLabel,
   FormMessage
 } from "@/components/ui/form";
-import { Input } from '@/components/ui/input';
 import {
   Select,
   SelectContent,
@@ -39,20 +15,39 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { useToast } from '@/components/ui/use-toast';
+import { setPreviewDetails } from '@/redux/preview/previewSlice';
 import { setUserDetails } from '@/redux/user/usersSlice';
 import { usersAPIs } from '@/utility/api/usersApi';
+import {
+  DndContext,
+  KeyboardSensor,
+  PointerSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core';
+import {
+  SortableContext,
+  arrayMove,
+  useSortable,
+  verticalListSortingStrategy,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
+import { useEffect, useState } from 'react';
 import { useFieldArray, useForm, useWatch } from 'react-hook-form';
-import { FiPlus } from 'react-icons/fi';
-import { useDispatch, useSelector } from 'react-redux';
-import { TbBrandGithubFilled } from 'react-icons/tb';
-import { FaLinkedin } from 'react-icons/fa6';
 import { AiFillFacebook, AiFillYoutube } from 'react-icons/ai';
+import { FaLinkedin } from 'react-icons/fa6';
+import { FiPlus } from 'react-icons/fi';
+import { HiOutlineMenu } from 'react-icons/hi';
+import { TbBrandGithubFilled } from 'react-icons/tb';
+import { useDispatch, useSelector } from 'react-redux';
+import { CustomInput } from '../ui/custom-input';
 
-// Custom modifier for vertical axis restriction
+
 const restrictToVerticalAxis = ({ transform }) => {
   return {
     ...transform,
-    x: 0, // Restrict horizontal movement
+    x: 0,
   };
 };
 
@@ -78,7 +73,12 @@ function DraggableItem({ id, item, index, fields, control, register, remove, err
           </button>
           <p className='font-semibold'>Link #{index + 1}</p>
         </div>
-        {fields?.length > 1 && <p className='cursor-pointer' onClick={() => remove(index)}>Remove</p>}
+        {fields?.length > 1 &&
+          <p className='cursor-pointer'
+            onClick={() => {
+              remove(index)
+            }}
+          >Remove</p>}
       </div>
 
       <FormField
@@ -154,7 +154,7 @@ function DraggableItem({ id, item, index, fields, control, register, remove, err
           <FormItem className='mt-3'>
             <FormLabel>Link</FormLabel>
             <FormControl>
-              <Input
+              <CustomInput
                 id="link"
                 placeholder="Link"
                 autoComplete="off"
@@ -204,6 +204,7 @@ function DraggableItem({ id, item, index, fields, control, register, remove, err
 
 export default function VerticalDndWithLinkForm() {
   const { userDetails } = useSelector((state) => state.usersSlice);
+  const { previewDetails } = useSelector((state) => state.previewSlice);
   const dispatch = useDispatch();
   const { toast } = useToast()
   const [loading, setIsLoading] = useState(false);
@@ -225,6 +226,7 @@ export default function VerticalDndWithLinkForm() {
     handleSubmit,
     formState: { errors },
     watch,
+    getValues,
     reset,
   } = useForm({
     defaultValues: {
@@ -258,15 +260,7 @@ export default function VerticalDndWithLinkForm() {
       const oldIndex = fields.findIndex((item) => item.id === active.id);
       const newIndex = fields.findIndex((item) => item.id === over.id);
 
-      // console.log('oldIndex', oldIndex);
-      // console.log('newIndex', newIndex);
-      // console.log("fields ==>", fields);
-      // console.log("watchFieldArray ==>", watchFieldArray);
-
       const newFields = arrayMove(watchFieldArray, oldIndex, newIndex);
-      // const newFields = arrayMove(fields, oldIndex, newIndex);
-
-      // console.log("newFields ==>", newFields);
 
       newFields.forEach((field, index) => {
         update(index, field);
@@ -326,6 +320,14 @@ export default function VerticalDndWithLinkForm() {
 
 
 
+  useEffect(() => {
+    if (previewDetails?.id) {
+      var info = { ...previewDetails, links: watchFieldArray };
+      dispatch(setPreviewDetails(info));
+    }
+  }, [watchFieldArray])
+
+
   return (
     <DndContext
       sensors={sensors}
@@ -335,7 +337,9 @@ export default function VerticalDndWithLinkForm() {
     >
       <SortableContext items={fields} strategy={verticalListSortingStrategy}>
         <Form {...form}>
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form
+            onSubmit={handleSubmit(onSubmit)}
+          >
             <Button
               variant="outline"
               className="mt-7 font-semibold w-full py-5 mb-7"
