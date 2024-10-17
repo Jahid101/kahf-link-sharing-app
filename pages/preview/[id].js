@@ -99,7 +99,7 @@ const PreviewPage = () => {
         <div>
             <PreviewTopBar />
 
-            <div className='m-auto bg-white rounded-2xl shadow-lg p-5 pb-10 w-[95%] min-[420px]:w-[400px] mt-[-120px] mb-10'>
+            <div className='m-auto bg-white rounded-2xl shadow-lg p-5 pb-10 w-[95%] min-[420px]:w-[400px] mt-[-130px] mb-10'>
                 <div className='p-3'>
                     <div className='pt-3 mb-9'>
                         <Avatar className="border-4 border-solid border-primary h-28 w-28 m-auto">

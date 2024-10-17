@@ -1,25 +1,16 @@
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-
-import {
-  Github,
-  MessageCircle,
-  Share2,
-  UserRound
-} from "lucide-react";
-import { useState } from "react";
-
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
-import { getValueAtIndex, scrollToView } from "@/lib/utils";
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
+import { IoCopy } from "react-icons/io5";
+import { useToast } from "@/components/ui/use-toast";
 
 const ShareButton = ({ open, setDialogOpen }) => {
-  const [isDialogOpen, setDialogOpen] = useState(false)
+  const { toast } = useToast()
 
   const shareMenuItems = [
     {
@@ -63,27 +54,58 @@ const ShareButton = ({ open, setDialogOpen }) => {
     setDialogOpen(b)
   }
 
-  return <Dialog open={open} onOpenChange={onOpenChange}>
-    <DialogContent className="w-full bg-primaryBg border-slate-700">
-      <DialogHeader>
-        <DialogTitle>Share</DialogTitle>
-        <DialogDescription>
-          Share this portfolio with others.
-        </DialogDescription>
-      </DialogHeader>
-      <div className="flex flex-col gap-y-2">
-        {
-          shareMenuItems.map((item) => {
-            const onButtonClicked = () => {
-              window.open(`${item.link}${window.location.href}`, '_blank')
-            }
+  const handleCopy = (link) => {
+    navigator.clipboard.writeText(link);
+    toast({
+      variant: "success",
+      title: "Copied to clipboard",
+    })
+  }
 
-            return <Button onClick={onButtonClicked}>{item.title}</Button>
-          })
-        }
-      </div>
-    </DialogContent>
-  </Dialog>
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent
+        className="w-full bg-white border-slate-700"
+        onOpenAutoFocus={(e) => {
+          e.preventDefault();
+        }}
+      >
+        <DialogHeader>
+          <DialogTitle className="text-black text-xl">Share</DialogTitle>
+          <DialogDescription>
+            Share your links with others.
+            <div className="flex justify-between items-center bg-gray-200 rounded-lg mt-3 p-3">
+              <p>{window.location.href}</p>
+
+              <TooltipProvider>
+                <Tooltip delayDuration={0}>
+                  <TooltipTrigger>
+                    <IoCopy className='cursor-pointer text-primary w-5 h-5' onClick={() => handleCopy(window?.location?.href)} />
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Copy</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+
+            </div>
+          </DialogDescription>
+        </DialogHeader>
+        <div className="flex flex-col gap-y-2">
+          {
+            shareMenuItems.map((item) => {
+              const onButtonClicked = () => {
+                window.open(`${item.link}${window.location.href}`, '_blank')
+              }
+
+              return <Button variant='outline' onClick={onButtonClicked}>{item.title}</Button>
+            })
+          }
+        </div>
+      </DialogContent>
+    </Dialog>
+  )
 }
 
 export default ShareButton;
