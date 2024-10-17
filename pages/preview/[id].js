@@ -87,10 +87,10 @@ const PreviewPage = () => {
     }
 
     const handleExternalLink = (link) => {
-        if (link.startsWith("http://")) {
+        if (link.startsWith("https://")) {
             window.open(link, '_blank');
         } else {
-            window.open("http://" + link, '_blank');
+            window.open("https://" + link, '_blank');
         }
     }
 
