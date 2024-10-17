@@ -48,7 +48,7 @@ const TopBar = () => {
                             onClick={() => router.push('/links')}
                         />
                     </div>
-                    <p className="w-fit text-xl font-bold hidden md:block">devlinks</p>
+                    <p className="w-fit text-xl font-bold hidden md:block text-black">devlinks</p>
                 </div>
 
                 <div className="flex items-center gap-3">

@@ -35,7 +35,7 @@ module.exports = {
         "accordion-up": "accordion-up 0.2s ease-out",
       },
       backgroundImage: {
-        'phone': "url('/images/phone.webp')",
+        'phone': "url('/images/phone.png')",
       }
     },
   },

@@ -87,10 +87,10 @@ const PreviewPage = () => {
     }
 
     const handleExternalLink = (link) => {
-        if (link.startsWith("http://")) {
+        if (link.startsWith("https://")) {
             window.open(link, '_blank');
         } else {
-            window.open("http://" + link, '_blank');
+            window.open("https://" + link, '_blank');
         }
     }
 
@@ -116,48 +116,50 @@ const PreviewPage = () => {
                         <p className="text-xs text-center mt-2 break-all">{userData?.contactEmail}</p>
                     </div>
 
-                    {userData?.links?.length > 0 && userData?.links.map((item, index) => (
-                        <div
-                            key={index}
-                            className={cn('flex justify-between items-center mt-4 rounded-lg px-4 py-5',
-                                item?.platform == 'GitHub' && 'bg-[#25292E]',
-                                item?.platform == 'YouTube' && 'bg-red-600',
-                                item?.platform == 'LinkedIn' && 'bg-blue-800',
-                                item?.platform == 'Facebook' && 'bg-blue-600',
-                                item?.platform == 'Portfolio' && 'bg-teal-700',
-                            )}
-                        >
-                            <div className='flex items-center text-white'>
-                                {item?.platform == 'GitHub' && <TbBrandGithubFilled className='w-6 h-6 mr-2' />}
-                                {item?.platform == 'LinkedIn' && <FaLinkedin className='w-6 h-6 mr-2' />}
-                                {item?.platform == 'YouTube' && <AiFillYoutube className='w-6 h-6 mr-2' />}
-                                {item?.platform == 'Facebook' && <AiFillFacebook className='w-6 h-6 mr-2' />}
-                                {item?.platform == 'Portfolio' && <CgWebsite className='w-6 h-6 mr-2' />}
-                                <p className='w-fit text-sm'>{item?.platform}</p>
-                            </div>
-                            <div className='flex items-center gap-2 text-white'>
-                                <TooltipProvider>
-                                    <Tooltip delayDuration={0}>
-                                        <TooltipTrigger>
-                                            <IoCopy className='cursor-pointer w-5 h-5' onClick={() => handleCopy(item?.link)} />
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>Copy</p>
-                                        </TooltipContent>
-                                    </Tooltip>
+                    <div className='max-h-[400px] overflow-y-auto px-1'>
+                        {userData?.links?.length > 0 && userData?.links.map((item, index) => (
+                            <div
+                                key={index}
+                                className={cn('flex justify-between items-center mt-4 rounded-lg px-4 py-5',
+                                    item?.platform == 'GitHub' && 'bg-[#25292E]',
+                                    item?.platform == 'YouTube' && 'bg-red-600',
+                                    item?.platform == 'LinkedIn' && 'bg-blue-800',
+                                    item?.platform == 'Facebook' && 'bg-blue-600',
+                                    item?.platform == 'Portfolio' && 'bg-teal-700',
+                                )}
+                            >
+                                <div className='flex items-center text-white'>
+                                    {item?.platform == 'GitHub' && <TbBrandGithubFilled className='w-6 h-6 mr-2' />}
+                                    {item?.platform == 'LinkedIn' && <FaLinkedin className='w-6 h-6 mr-2' />}
+                                    {item?.platform == 'YouTube' && <AiFillYoutube className='w-6 h-6 mr-2' />}
+                                    {item?.platform == 'Facebook' && <AiFillFacebook className='w-6 h-6 mr-2' />}
+                                    {item?.platform == 'Portfolio' && <CgWebsite className='w-6 h-6 mr-2' />}
+                                    <p className='w-fit text-sm'>{item?.platform}</p>
+                                </div>
+                                <div className='flex items-center gap-2 text-white'>
+                                    <TooltipProvider>
+                                        <Tooltip delayDuration={0}>
+                                            <TooltipTrigger>
+                                                <IoCopy className='cursor-pointer w-5 h-5' onClick={() => handleCopy(item?.link)} />
+                                            </TooltipTrigger>
+                                            <TooltipContent>
+                                                <p>Copy</p>
+                                            </TooltipContent>
+                                        </Tooltip>
 
-                                    <Tooltip delayDuration={0}>
-                                        <TooltipTrigger>
-                                            <TbExternalLink className='cursor-pointer w-5 h-5' onClick={() => handleExternalLink(item?.link)} />
-                                        </TooltipTrigger>
-                                        <TooltipContent>
-                                            <p>Visit</p>
-                                        </TooltipContent>
-                                    </Tooltip>
-                                </TooltipProvider>
+                                        <Tooltip delayDuration={0}>
+                                            <TooltipTrigger>
+                                                <TbExternalLink className='cursor-pointer w-5 h-5' onClick={() => handleExternalLink(item?.link)} />
+                                            </TooltipTrigger>
+                                            <TooltipContent>
+                                                <p>Visit</p>
+                                            </TooltipContent>
+                                        </Tooltip>
+                                    </TooltipProvider>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>
