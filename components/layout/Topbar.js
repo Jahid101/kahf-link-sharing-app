@@ -1,6 +1,4 @@
-import CardContent from "@/components/customUI/CardContent";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import { Button } from "@/components/ui/button";
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -9,16 +7,18 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu";
-import { setPreviewDetails } from "@/redux/preview/previewSlice";
 import { setUserDetails } from "@/redux/user/usersSlice";
-import { EyeIcon } from "lucide-react";
 import Image from 'next/image';
 import { useRouter } from 'next/router';
-import { FaLink } from "react-icons/fa6";
 import { FiLogOut } from "react-icons/fi";
 import { LuUserCircle2 } from "react-icons/lu";
 import { useDispatch, useSelector } from 'react-redux';
 import Logo from '../../public/images/logo.png';
+import { changeThemeColor } from "@/utility/utilityFunctions";
+import CardContent from "@/components/customUI/CardContent";
+import { FaLink } from "react-icons/fa6";
+import { Button } from "@/components/ui/button";
+import { EyeIcon } from "lucide-react";
 
 
 const TopBar = () => {
@@ -28,7 +28,7 @@ const TopBar = () => {
 
     const handleLogout = () => {
         dispatch(setUserDetails(null));
-        dispatch(setPreviewDetails(null));
+        changeThemeColor();
         router.push("/");
     };
 
@@ -43,6 +43,8 @@ const TopBar = () => {
                             src={Logo}
                             style={{ margin: 'auto', cursor: 'pointer' }}
                             alt="logo"
+                            // width={130}
+                            // height={50}
                             onClick={() => router.push('/links')}
                         />
                     </div>

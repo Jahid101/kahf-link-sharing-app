@@ -6,6 +6,10 @@ export const handleErrorMessage = (errors, name) => {
   return "";
 };
 
+export const changeThemeColor = (primary = '#5F41DC') => {
+  document.documentElement.style.setProperty('--color-primary', primary);
+};
+
 export const uploadImage = async (file) => {
   const API_KEY = '1f02ae8317a0c2a583f68937ea575f18';
   const formData = new FormData();

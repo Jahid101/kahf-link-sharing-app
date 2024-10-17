@@ -103,9 +103,7 @@ const PreviewPage = () => {
         <div>
             <PreviewTopBar />
 
-            <div
-                className='m-auto bg-white rounded-2xl shadow-lg p-5 pb-10 w-[95%] min-[420px]:w-[400px] mt-[-250px] lg:mt-[-130px] mb-10'
-            >
+            <div className='m-auto bg-white rounded-2xl shadow-lg p-5 pb-10 w-[95%] min-[420px]:w-[400px] mt-[-130px] mb-10'>
                 <div className='p-3'>
                     <div className='pt-3 mb-9'>
                         <Avatar className="border-4 border-solid border-primary h-28 w-28 m-auto">
@@ -118,7 +116,7 @@ const PreviewPage = () => {
                         <p className="text-xs text-center mt-2 break-all">{userData?.contactEmail}</p>
                     </div>
 
-                    <div className='min-h-[200px] max-h-[400px] overflow-y-auto px-1'>
+                    <div className='max-h-[400px] overflow-y-auto px-1'>
                         {userData?.links?.length > 0 && userData?.links.map((item, index) => (
                             <div
                                 key={index}

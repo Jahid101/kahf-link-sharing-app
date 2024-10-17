@@ -5,7 +5,7 @@ Live: https://kahf-link-sharing-app.vercel.app
 -   Clone the repo.
 -   Open terminal
     -   Run **yarn** or **npm install**.
-    -   Run **yarn dev** or **npm run dev** to see the result in browser(http://localhost:3000).
+    -   Run **yarn dev** or **npm run dev** to see the result in browser.
 
 # Requirements
 -   Node version v18.17.0 or higher

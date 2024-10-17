@@ -36,4 +36,11 @@ export const usersAPIs = {
         })
         return data.data;
     },
+    deleteUser: async (userId) => {
+        const data = await axios({
+            url: Constants.Api.users.users + '/' + userId,
+            method: "DELETE",
+        })
+        return data.data;
+    },
 }

@@ -249,7 +249,7 @@ const ProfilePage = () => {
                                 </div>
 
                                 <div className="flex justify-between items-center">
-                                    <p className=''>Email</p>
+                                    <p className=''>Contact email</p>
                                     <div className='w-[70%]'>
                                         <FormField
                                             control={control}

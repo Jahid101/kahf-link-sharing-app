@@ -8,25 +8,17 @@ import {
 } from "@/components/ui/tooltip";
 import { useToast } from '@/components/ui/use-toast';
 import { cn } from '@/lib/utils';
-import { setPreviewDetails } from '@/redux/preview/previewSlice';
-import { useEffect } from 'react';
 import { AiFillFacebook, AiFillYoutube } from "react-icons/ai";
 import { CgWebsite } from "react-icons/cg";
 import { FaLinkedin } from 'react-icons/fa6';
 import { IoCopy } from "react-icons/io5";
 import { TbBrandGithubFilled, TbExternalLink } from "react-icons/tb";
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 
 const LeftSide = () => {
-    const { userDetails} = useSelector((state) => state.usersSlice);
-    const { previewDetails } = useSelector((state) => state.previewSlice);
+    const { userDetails } = useSelector((state) => state.usersSlice);
     const { toast } = useToast()
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        dispatch(setPreviewDetails(userDetails));
-    }, [])
 
     const handleCopy = (link) => {
         navigator.clipboard.writeText(link);
@@ -51,17 +43,17 @@ const LeftSide = () => {
                 <div className='bg-phone h-[650px] w-[300px] bg-center bg-no-repeat bg-cover flex flex-col items-center'>
                     <div className='pt-[85px] mb-5'>
                         <Avatar className="border-4 border-solid border-primary h-28 w-28 m-auto">
-                            <AvatarImage src={previewDetails?.picture} />
+                            <AvatarImage src={userDetails?.picture} />
                             <AvatarFallback className="uppercase text-3xl">
-                                {previewDetails?.firstName ? previewDetails?.firstName[0] : 'A'}
+                                {userDetails?.firstName ? userDetails?.firstName[0] : 'A'}
                             </AvatarFallback>
                         </Avatar>
-                        <p className="text-center mt-5 break-words text-black text-lg font-bold px-[80px]">{previewDetails?.firstName} {previewDetails?.lastName}</p>
-                        <p className="text-xs text-center mt-2 break-all px-[80px]">{previewDetails?.contactEmail}</p>
+                        <p className="text-center mt-5 break-words text-black text-lg font-bold px-[80px]">{userDetails?.firstName} {userDetails?.lastName}</p>
+                        <p className="text-xs text-center mt-2 break-all px-[80px]">{userDetails?.contactEmail}</p>
                     </div>
 
                     <div className='max-h-[300px] overflow-y-auto px-1'>
-                        {previewDetails?.links?.length > 0 && previewDetails?.links.map((item, index) => (
+                        {userDetails?.links?.length > 0 && userDetails?.links.map((item, index) => (
                             <div
                                 key={index}
                                 className={cn('flex justify-between items-center mt-3 rounded-lg p-3 w-[260px]',
