@@ -125,7 +125,7 @@ const LinkPage = () => {
     return (
         <Layout>
             <div className="w-full lg:w-[60%]">
-                <CardContent className="mb-7">
+                <CardContent className="mb-7 py-7">
                     <PageTitle title="Customize your links" className="mb-2" />
                     <p className='text-sm'>Add/edit/remove links below and then share all your profiles with the world!</p>
 
@@ -137,7 +137,6 @@ const LinkPage = () => {
                                 variant="outline"
                                 className="mt-7 font-semibold w-full py-5 mb-7"
                                 type="button"
-                                disabled={fields?.length >= 5}
                                 onClick={() => {
                                     append(initialValue, {
                                         shouldFocus: false,
@@ -149,7 +148,7 @@ const LinkPage = () => {
                             </Button>
 
                             <div className='space-y-7 px-1'>
-                            {/* <div className='h-[384px] overflow-y-auto space-y-7 px-1'> */}
+                                {/* <div className='h-[512px] overflow-y-auto space-y-7 px-1'> */}
                                 {fields.map((item, index) => (
                                     <div key={item.id} className='bg-gray-50 p-4 rounded-lg border pb-5'>
                                         <div className='flex justify-between'>

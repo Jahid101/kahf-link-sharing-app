@@ -136,7 +136,7 @@ const ProfilePage = () => {
     return (
         <Layout>
             <div className="w-full lg:w-[60%]">
-                <CardContent className="mb-7">
+                <CardContent className="mb-7 pt-7">
                     <PageTitle title="Profile Details" className="mb-2" />
                     <p className='text-sm'>Add your details to create a personal touch to your profile.</p>
 
@@ -144,9 +144,9 @@ const ProfilePage = () => {
                         <form
                             onSubmit={handleSubmit(onSubmit)}
                         >
-                            <div className="flex justify-between items-center bg-gray-50 rounded-lg px-3 py-7 mt-10">
+                            <div className="flex flex-col gap-3 sm:flex-row justify-between sm:items-center bg-gray-50 rounded-lg px-3 py-7 mt-10">
                                 <p className='w-fit'>Profile picture</p>
-                                <div className='w-[70%] flex items-center gap-5'>
+                                <div className='w-full sm:w-[70%] flex flex-col sm:flex-row items-center gap-5'>
                                     <div className='relative w-fit'>
                                         <Avatar
                                             className={cn('border border-solid rounded-lg border-slate-300 h-40 w-40',
@@ -287,7 +287,7 @@ const ProfilePage = () => {
                                 </div>
                             </div>
 
-                            <div className='flex justify-end mt-7'>
+                            <div className='flex justify-end mt-7 mb-6'>
                                 <Button
                                     className="w-full md:w-fit"
                                     size="lg"
